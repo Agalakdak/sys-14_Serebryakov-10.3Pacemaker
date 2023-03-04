@@ -50,12 +50,78 @@ Pacemaker это программное решение от компании Clu
 *Пришлите конфигурации сервисов для каждой ноды, конфигурационный файл corosync и бэкап конфигурации pacemaker при помощи команды pcs config backup filename.*
 
 ---
+```bash
+nodetwo
 
-Я очень старался. Я несколько раз ставил систему в облаке пробовал разные комбинации машин (хех, их было всего 2: 3 ноды и 2 ноды).
-По этому заданию у меня пока, что есть скрин с вопросом =)
-В лекции преподаватель говорил, что результат комады "pcs status" должен быть одинаковый на всех нодах, но у меня он разный хотя и левый терминал(master) и правый (slave) бъединены в кластер =\
-![](1.png)
+totem {
+    version: 2
+    cluster_name: newCluster
+    transport: knet
+    crypto_cipher: aes256
+    crypto_hash: sha256
+}
 
+nodelist {
+    node {
+        ring0_addr: nodeone
+        name: nodeone
+        nodeid: 1
+    }
+
+    node {
+        ring0_addr: nodetwo
+        name: nodetwo
+        nodeid: 2
+    }
+}
+
+quorum {
+    provider: corosync_votequorum
+    two_node: 1
+}
+
+logging {
+    to_logfile: yes
+    logfile: /var/log/corosync/corosync.log
+    to_syslog: yes
+    timestamp: on
+}
+nodeone
+
+totem {
+    version: 2
+    cluster_name: newCluster
+    transport: knet
+    crypto_cipher: aes256
+    crypto_hash: sha256
+}
+
+nodelist {
+    node {
+        ring0_addr: nodeone
+        name: nodeone
+        nodeid: 1
+    }
+
+    node {
+        ring0_addr: nodetwo
+        name: nodetwo
+        nodeid: 2
+    }
+}
+
+quorum {
+    provider: corosync_votequorum
+    two_node: 1
+}
+
+logging {
+    to_logfile: yes
+    logfile: /var/log/corosync/corosync.log
+    to_syslog: yes
+    timestamp: on
+}
+```
 ---
 ---
 
